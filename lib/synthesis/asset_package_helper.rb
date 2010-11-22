@@ -21,7 +21,8 @@ module Synthesis
         AssetPackage.targets_from_sources("javascripts", sources) : 
         AssetPackage.sources_from_targets("javascripts", sources))
         
-      sources.collect {|source| javascript_include_tag(source, options) }.join("\n").html_safe
+      result = sources.collect {|source| javascript_include_tag(source, options) }.join("\n")
+      result.respond_to?(:html_safe) ? result.html_safe : result
     end
 
     def stylesheet_link_merged(*sources)
@@ -32,7 +33,8 @@ module Synthesis
         AssetPackage.targets_from_sources("stylesheets", sources) : 
         AssetPackage.sources_from_targets("stylesheets", sources))
 
-      sources.collect { |source| stylesheet_link_tag(source, options) }.join("\n").html_safe
+      result = sources.collect { |source| stylesheet_link_tag(source, options) }.join("\n").html_safe
+      result.respond_to?(:html_safe) ? result.html_safe : result
     end
 
   end
